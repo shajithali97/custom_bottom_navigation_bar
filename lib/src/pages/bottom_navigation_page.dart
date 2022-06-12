@@ -1,22 +1,21 @@
+import 'package:custom_bottom_navigation_bar/src/controllers/bottom_nav_bar_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../constants.dart';
 
-class CustomBottomNavigation extends StatefulWidget {
-  CustomBottomNavigation({Key? key}) : super(key: key);
+class CustomBottomNavigation extends StatelessWidget {
+  const CustomBottomNavigation({Key? key}) : super(key: key);
 
-  @override
-  State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
-}
-
-class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final BottomNavBarController bottomNavBarController =
+        Get.put(BottomNavBarController());
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
-        child: Text(pages[selectedIndex].toString()),
+        child:
+            Text(pages[bottomNavBarController.selectedIndex.value].toString()),
       ),
       bottomNavigationBar: Container(
         width: width,
@@ -28,22 +27,19 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             (index) => SizedBox(
               width: width / 4,
               child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
+                onTap: bottomNavBarController.changeIndex(index),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
                       radius: 22,
-                      backgroundColor: index == selectedIndex
-                          ? activeIconBgColor
-                          : Colors.transparent,
+                      backgroundColor:
+                          index == bottomNavBarController.selectedIndex
+                              ? activeIconBgColor
+                              : Colors.transparent,
                       child: Icon(
                         bottomItems[index].iconData,
-                        color: index == selectedIndex
+                        color: index == bottomNavBarController.selectedIndex
                             ? activeColor
                             : inActiveColor,
                       ),
@@ -55,7 +51,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                       bottomItems[index].labelData,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: index == selectedIndex
+                        color: index == bottomNavBarController.selectedIndex
                             ? activeColor
                             : inActiveColor,
                       ),
