@@ -3,66 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants.dart';
+import 'components/bottom_nav_bar.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
-  const CustomBottomNavigation({Key? key}) : super(key: key);
-
+  CustomBottomNavigation({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    final BottomNavBarController bottomNavBarController =
-        Get.put(BottomNavBarController());
+  Widget build(context) {
     double width = MediaQuery.of(context).size.width;
+    final navBarController = Get.put(BottomNavBarController());
+
     return Scaffold(
       body: Center(
-        child:
-            Text(pages[bottomNavBarController.selectedIndex.value].toString()),
+        child: Obx(
+            () => Text(pages[navBarController.selectedIndex.value].toString())),
       ),
-      bottomNavigationBar: Container(
-        width: width,
-        height: 80,
-        color: Colors.black87,
-        child: Row(
-          children: List.generate(
-            4,
-            (index) => SizedBox(
-              width: width / 4,
-              child: InkWell(
-                onTap: bottomNavBarController.changeIndex(index),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor:
-                          index == bottomNavBarController.selectedIndex
-                              ? activeIconBgColor
-                              : Colors.transparent,
-                      child: Icon(
-                        bottomItems[index].iconData,
-                        color: index == bottomNavBarController.selectedIndex
-                            ? activeColor
-                            : inActiveColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      bottomItems[index].labelData,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: index == bottomNavBarController.selectedIndex
-                            ? activeColor
-                            : inActiveColor,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationBarWidget(
+          width: width, navBarController: navBarController),
     );
   }
 }
