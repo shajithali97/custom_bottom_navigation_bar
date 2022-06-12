@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'src/home_page.dart';
+import 'src/pages/bottom_navigation_page.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,7 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Custom Bottom Navigation Bar",
-      home: HomePage(),
+      theme: ThemeData.dark(),
+      home: CustomBottomNavigation(),
     );
   }
 }
